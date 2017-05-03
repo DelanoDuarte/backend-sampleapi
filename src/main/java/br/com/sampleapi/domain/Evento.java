@@ -13,9 +13,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,11 +50,11 @@ public class Evento implements Serializable {
 	@Column
 	private String observacoes;
 
-	@Column
-	private Boolean flag_finalizado;
-
-	@OneToMany(fetch = FetchType.EAGER)
-	private List<Participante> participantes;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_participantes_evento", 
+	joinColumns = @JoinColumn(name = "id_evento", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "id_participante", referencedColumnName = "id"))
+	private List<Participante> participantesEventos;
 
 	public Long getId() {
 		return id;
@@ -86,20 +88,12 @@ public class Evento implements Serializable {
 		this.observacoes = observacoes;
 	}
 
-	public Boolean getFlag_finalizado() {
-		return flag_finalizado;
+	public List<Participante> getParticipantesEventos() {
+		return participantesEventos;
 	}
 
-	public void setFlag_finalizado(Boolean flag_finalizado) {
-		this.flag_finalizado = flag_finalizado;
-	}
-
-	public List<Participante> getParticipantes() {
-		return participantes;
-	}
-
-	public void setParticipantes(List<Participante> participantes) {
-		this.participantes = participantes;
+	public void setParticipantesEventos(List<Participante> participantesEventos) {
+		this.participantesEventos = participantesEventos;
 	}
 
 	@Override
@@ -107,11 +101,10 @@ public class Evento implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataEvento == null) ? 0 : dataEvento.hashCode());
-		result = prime * result + ((flag_finalizado == null) ? 0 : flag_finalizado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((observacoes == null) ? 0 : observacoes.hashCode());
-		result = prime * result + ((participantes == null) ? 0 : participantes.hashCode());
+		result = prime * result + ((participantesEventos == null) ? 0 : participantesEventos.hashCode());
 		return result;
 	}
 
@@ -129,11 +122,6 @@ public class Evento implements Serializable {
 				return false;
 		} else if (!dataEvento.equals(other.dataEvento))
 			return false;
-		if (flag_finalizado == null) {
-			if (other.flag_finalizado != null)
-				return false;
-		} else if (!flag_finalizado.equals(other.flag_finalizado))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -149,10 +137,10 @@ public class Evento implements Serializable {
 				return false;
 		} else if (!observacoes.equals(other.observacoes))
 			return false;
-		if (participantes == null) {
-			if (other.participantes != null)
+		if (participantesEventos == null) {
+			if (other.participantesEventos != null)
 				return false;
-		} else if (!participantes.equals(other.participantes))
+		} else if (!participantesEventos.equals(other.participantesEventos))
 			return false;
 		return true;
 	}
@@ -160,7 +148,7 @@ public class Evento implements Serializable {
 	@Override
 	public String toString() {
 		return "Evento [id=" + id + ", nome=" + nome + ", dataEvento=" + dataEvento + ", observacoes=" + observacoes
-				+ ", flag_finalizado=" + flag_finalizado + ", participantes=" + participantes + "]";
+				+ ", participantesEventos=" + participantesEventos + "]";
 	}
 
 }

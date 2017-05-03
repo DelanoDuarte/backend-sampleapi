@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -40,10 +38,6 @@ public class Participante implements Serializable {
 	@Column
 	private Boolean presencaConfirmada;
 
-	@ManyToOne
-	@JoinColumn(name = "id_evento")
-	private Evento evento;
-
 	public Long getId() {
 		return id;
 	}
@@ -68,19 +62,10 @@ public class Participante implements Serializable {
 		this.presencaConfirmada = presencaConfirmada;
 	}
 
-	public Evento getEvento() {
-		return evento;
-	}
-
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((evento == null) ? 0 : evento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((presencaConfirmada == null) ? 0 : presencaConfirmada.hashCode());
@@ -96,11 +81,6 @@ public class Participante implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Participante other = (Participante) obj;
-		if (evento == null) {
-			if (other.evento != null)
-				return false;
-		} else if (!evento.equals(other.evento))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -121,8 +101,7 @@ public class Participante implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Participante [id=" + id + ", nome=" + nome + ", presencaConfirmada=" + presencaConfirmada + ", evento="
-				+ evento + "]";
+		return "Participante [id=" + id + ", nome=" + nome + ", presencaConfirmada=" + presencaConfirmada + "]";
 	}
 
 }

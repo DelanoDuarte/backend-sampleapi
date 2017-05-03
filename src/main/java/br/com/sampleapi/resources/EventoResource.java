@@ -98,7 +98,6 @@ public class EventoResource implements Serializable {
 			Evento eventoFind = eventoEJB.find(id);
 			eventoFind.setNome(evento.getNome());
 			eventoFind.setDataEvento(evento.getDataEvento());
-			eventoFind.setFlag_finalizado(evento.getFlag_finalizado());
 			eventoFind.setObservacoes(evento.getObservacoes());
 			eventoEJB.save(eventoFind);
 
